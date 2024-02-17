@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head') %>
+</head>
+
+<body>
+    <%- include('./partials/nav') %>
+        <!-- <%= JSON.stringify(blog) %> -->
+        <div class="container mt-4">
+            <h1>
+                <figcaption class="figure-caption"
+                    style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <%= blog.title %>
+
+                    </div>
+                    <div style="font-size: 1.5rem; ">
+                        <% if (locals.user) { %>
+                            <% if (locals.user._id==locals.blog.createdBy._id) { %>
+
+                                <a href="/blog/edit-post/<%= blog._id %>"><i class="fa-regular fa-pen-to-square"
+                                        style="margin-right: 20px; cursor: pointer;"></i></a>
+                                <i class="fa-solid fa-trash" style="cursor: pointer;"
+                                    onclick="deleteBlogPost('<%= blog._id %>')"></i>
+    
+                                <% } %>
+                        <% } %>
+                        
+                    </div>
+
+                </figcaption>
+            </h1>
+
+            <figure class="figure px-auto">
+                <img src="<%= blog.coverImage %>" class="img-fluid" alt="...">
+
+                <!-- <img src="<%= blog.coverImage %>" class=""  alt="..." > -->
+
+            </figure>
+
+            <p>
+                <%= blog.description %>
+            </p>
+        </div>
+        <div class="container mt-3">
+            <img src="<%= blog.createdBy.profileImageUrl %>" alt="" width="50px">
+            <br>
+            <%= blog.createdBy.fullName %>
+        </div>
+
+
+        <div class="container mt-4">
+            <h3>Comments (<%=comments.length%>)</h3>
+            <% if (locals.user) { %>
+                <form action="/blog/comment/<%=blog._id %>" method="post" class="position-relative">
+                    <input type="text" class="form-control" name="content" id="content" aria-describedby="content"
+                        placeholder="Comments....">
+
+                    <button type="submit" class="btn position-absolute top-0 end-0"> <img src="/images/send-message.png"
+                            alt="img" width="20px"></button>
+                </form>
+                <% } %>
+                    <div class="container mt-3">
+                        <% comments.forEach(comment=> { %>
+                            <div class="d-flex gap-2">
+                                <div>
+                                    <img src="<%= comment.createdBy.profileImageUrl %>" alt="" width="60px">
+                                </div>
+                                <div>
+                                    <i class="fs-6">
+                                        @<%= comment.createdBy.fullName %>
+                                    </i>
+                                    <p class="fs-6">
+                                        <%= comment.content %>
+                                    </p>
+                                </div>
+                            </div>
+                            <% }) %>
+                                <br>
+                    </div>
+
+        </div>
+
+        <%- include('./partials/script') %>
+
+            <script>
+
+
+
+                //delete request
+                async function deleteBlogPost(blogId) {
+
+                    const response = await fetch(`/blog/${blogId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            // Add any other headers as needed, such as authorization headers
+                        },
+                    });
+                    return window.location.href = "/blog/myBlog"
+                }
+            </script>
+
+</body>
+
+</html>

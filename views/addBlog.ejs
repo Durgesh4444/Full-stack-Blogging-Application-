@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head') %>
+    <title>Add New Blog</title>
+</head>
+<body>
+    <%- include('./partials/nav') %>
+    <div class="container mt-3">
+        <form action="/blog" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="coverImage" class="form-label">Cover Image</label>
+                <div class="container">
+                  <img id="imagePreview" class="img-thumbnail" src="/images/no-image.png" alt="Selected Image" width="150px">
+                </div>
+                  
+                  <br>
+                  <input type="file" class="form-control" id="imageInput" name="coverImage" aria-describedby="title" onchange="previewImage()">
+              </div>
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="tittle" name="title" aria-describedby="title" placeholder="Enter Title Of Your Blog">
+              </div>
+              <div class="mb-3">
+                <label for="discription" class="form-label">Description</label>
+                <textarea class="form-control" placeholder="Add details of your blog !" name="description" id="description" rows="10"></textarea>
+              </div>
+              <div class="mb-3">
+                <button class="btn btn-primary" type="submit">Add</button>
+
+              </div>
+        </form>
+    </div>
+    <%- include('./partials/script') %>
+    <script>
+      function previewImage() {
+          var input = document.getElementById('imageInput');
+          var preview = document.getElementById('imagePreview');
+          
+          var file = input.files[0];
+          
+          if (file) {
+              var imageURL = URL.createObjectURL(file);
+              preview.src = imageURL;
+          }
+      }
+  </script>
+</body>
+</html>

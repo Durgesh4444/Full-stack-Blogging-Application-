@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head') %>
+</head>
+
+<body>
+    <%- include('./partials/nav') %>
+        <!-- <%= JSON.stringify(myBlogs) %> -->
+
+        <div class="container mt-3">
+            <main >
+                <% if (myBlogs.length==0) { %>
+                    <div class="col mx-auto my_auto position-relative">
+                        <h1 class="text-center mt-5 ">Create Your Own Beautiful Blog !</h1>
+                        <br><br><br>
+                        <a href="/blog/addblog" class="btn btn-secondary position-absolute top-250 start-50 translate-middle mt-1">Add Blog</a>
+                        
+                        <% }else { %>
+                            
+                            <% myBlogs.forEach(myBlogs=> { %>
+                                <div id="container">
+                                    <figure >
+                                        <img src="<%= myBlogs.coverImage %>"
+                                            alt="">
+                                    </figure>
+                                    <div id="info">
+                                
+                                
+                                        <div id="info1">
+                                            <img src="/images/user.png" alt="" width="35px">
+                                            <div><%= myBlogs.createdBy.fullName %></div>
+                                        </div>
+                                        <h1 id="title"> <%= myBlogs.title %></h1>
+                                        <div id="info2">
+                                          <%= myBlogs.description.slice(0, 160) +"........" %>
+                                        </div>
+                                        <hr id="line">
+                                        <div id="info3">
+                                            <div>
+                                            <span><%= (comments.filter(item => (item.blogId.toString()== myBlogs._id.toString()))).length %></span> <span style="margin-left: 5px;"> Comments</span>
+                                
+                                            </div>
+                                            <a href="/blog/<%= myBlogs._id %>" class="btn btn-secondary">View</a>
+                                           
+                                        </div>
+                                    </div>
+                                
+                                
+                                
+                                
+                                </div>
+                                <% }) %>
+
+                                    <% }%>
+                                </main>
+                    </div>
+                
+
+            <%- include('./partials/script') %>
+
+</body>
+
+</html>
+
+
+
